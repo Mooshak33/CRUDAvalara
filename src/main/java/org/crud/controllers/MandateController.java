@@ -21,12 +21,10 @@ public class MandateController {
 
     @GetMapping
     public ResponseEntity<MandateResponse> getMandates(@RequestHeader("avalara-version") String avalaraVersion,
-                                                       @RequestHeader("X-Avalara-Client") String avalaraClient,
-                                                       @RequestHeader("Authorization") String authorizationHeader) {
+                                                       @RequestHeader("X-Avalara-Client") String avalaraClient) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("avalara-version", avalaraVersion);
         headers.add("X-Avalara-Client", avalaraClient);
-        headers.add("Authorization", authorizationHeader);
         return ResponseEntity.ok(mandateService.getMandates(headers));
     }
 }

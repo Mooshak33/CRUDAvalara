@@ -19,7 +19,7 @@ public class DocumentController {
     }
 
     @GetMapping
-    public ResponseEntity<DocumentResponse> getMandates(@RequestHeader("avalara-version") String avalaraVersion,
+    public ResponseEntity<DocumentResponse> getDocuments(@RequestHeader("avalara-version") String avalaraVersion,
                                                         @RequestHeader("X-Avalara-Client") String avalaraClient,
                                                         @RequestHeader("Authorization") String authorizationHeader) {
         HttpHeaders headers = new HttpHeaders();

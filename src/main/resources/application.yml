@@ -1,0 +1,11 @@
+server:
+  servlet:
+    context-path: /avalara
+# application.properties
+security:
+  oauth2:
+    client:
+      token-url: https://ai-sbx.avlr.sh/connect/token
+      client-id: b401f37e6c7e4f0faf90e2efd3015d24
+      client-secret: K+HVIwwGfK2EmzlVTdfLtNGmjQ
+      grant-type: client_credentials
