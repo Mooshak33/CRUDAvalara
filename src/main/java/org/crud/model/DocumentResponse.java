@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DocumentResponse {
-    @JsonProperty("@nextLink")
+   // @JsonProperty("@nextLink")
     private String nextLink;
     private List<Document> value;
 }

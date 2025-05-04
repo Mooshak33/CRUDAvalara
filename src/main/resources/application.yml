@@ -1,6 +1,7 @@
 server:
   servlet:
     context-path: /avalara
+  port: 8089
 # application.properties
 security:
   oauth2:
