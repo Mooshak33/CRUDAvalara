@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3a15248-3d78-41eb-966e-fe415470adfc" name="Changes" comment="initial commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crud/model/TokenResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crud/service/TokenService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crud/config/OAuth2ClientProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crud/model/DocumentStatusResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crud/model/Event.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/crud/controllers/DocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crud/controllers/DocumentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crud/controllers/MandateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crud/controllers/MandateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crud/model/Document.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crud/model/Document.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crud/model/DocumentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crud/model/DocumentResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crud/model/MandateResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crud/model/MandateResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crud/service/DocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crud/service/DocumentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/crud/service/MandateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crud/service/MandateService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1745857003926</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="initial commit">
+      <created>1746032744498</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746032744498</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -135,32 +142,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/crud/service/MandateService.java</url>
-          <line>40</line>
+          <line>34</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/crud/service/MandateService.java</url>
-          <line>46</line>
+          <line>40</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/crud/service/DocumentService.java</url>
-          <line>25</line>
+          <line>38</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/crud/controllers/DocumentController.java</url>
-          <line>28</line>
+          <line>24</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/crud/service/DocumentService.java</url>
-          <line>19</line>
+          <line>32</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/crud/service/MandateService.java</url>
-          <line>37</line>
+          <line>31</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
