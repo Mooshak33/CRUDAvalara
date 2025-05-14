@@ -10,6 +10,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @Service
 public class MandateService {
@@ -26,14 +29,35 @@ public class MandateService {
         this.oAuth2ClientProperties = oAuth2ClientProperties;
     }
 
-    public MandateResponse getMandates(HttpHeaders headers) {
+    public MandateResponse getMandates(HttpHeaders headers, String filter, Integer top, Integer skip) {
         try {
             // Get the access token
             String accessToken = tokenService.getAccessToken(oAuth2ClientProperties.getTokenUrl(), oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret(),oAuth2ClientProperties.getGrantType());
             // Set the Authorization header
             headers.setBearerAuth(accessToken);
+            String[] parts = filter.split("\\s+(eq|contains)\\s+");
+            String fieldName="";
+            String operatorWithValue="";
+            String operator="";
+            String value="";
+            if (parts.length == 2) {
+                fieldName = parts[0].trim();
+                operatorWithValue = filter.substring(fieldName.length()).trim();
+                operator = operatorWithValue.split("\\s+")[0];
+                value = operatorWithValue.substring(operator.length()).trim();
+                // Remove surrounding single quotes if present
+                if (value.startsWith("'") && value.endsWith("'") && value.length() > 1) {
+                    value = value.substring(1, value.length() - 1);
+                }
+            }
+            URI uri = UriComponentsBuilder.fromHttpUrl("https://api.sbx.avalara.com/einvoicing/mandates")
+                    .queryParam(fieldName, value)
+                    .queryParam("$top", top)
+                    .queryParam("$skip", skip)
+                    .build()
+                    .toUri();
         ResponseEntity<MandateResponse> response = restTemplate.exchange(
-                "https://api.sbx.avalara.com/einvoicing/mandates",
+                uri,
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 MandateResponse.class

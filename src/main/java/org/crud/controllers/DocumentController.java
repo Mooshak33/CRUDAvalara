@@ -17,7 +17,13 @@ public class DocumentController {
     public DocumentController(DocumentService documentService) {
         this.documentService = documentService;
     }
-
+    /**
+     * Get all documents
+     *
+     * @param avalaraVersion the Avalara version
+     * @param avalaraClient  the Avalara client
+     * @return the document response
+     */
     @GetMapping
     public ResponseEntity<DocumentResponse> getDocuments(@RequestHeader("avalara-version") String avalaraVersion,
                                                         @RequestHeader("X-Avalara-Client") String avalaraClient) {
@@ -27,6 +33,14 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.getDocument(headers));
     }
 
+    /**
+     * Get document status by ID
+     *
+     * @param avalaraVersion the Avalara version
+     * @param avalaraClient  the Avalara client
+     * @param id             the document ID
+     * @return the document status response
+     */
     @GetMapping("{id}/status")
     public ResponseEntity<DocumentStatusResponse> getDocumentStatus(@RequestHeader("avalara-version") String avalaraVersion,
                                                                     @RequestHeader("X-Avalara-Client") String avalaraClient,
@@ -37,15 +51,34 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.getDocumentStatus(headers, id));
     }
 
+    /**
+     * Get data input fields
+     *
+     * @param avalaraVersion the Avalara version
+     * @param avalaraClient  the Avalara client
+     * @return the data input field response
+     */
     @GetMapping("/data-input-fields")
     public ResponseEntity<DataInputFieldResponse> getDataInputFields(@RequestHeader("avalara-version") String avalaraVersion,
-                                                                     @RequestHeader("X-Avalara-Client") String avalaraClient) {
+                                                                     @RequestHeader("X-Avalara-Client") String avalaraClient,
+                                                                     @RequestParam(value = "$filter", required = false) String filter,
+                                                                     @RequestParam(value = "$top", required = false) Integer top,
+                                                                     @RequestParam(value = "$skip", required = false) Integer skip
+                                                                     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("avalara-version", avalaraVersion);
         headers.add("X-Avalara-Client", avalaraClient);
-        return ResponseEntity.ok(documentService.getDataInputFields(headers));
+        return ResponseEntity.ok(documentService.getDataInputFields(headers,filter));
     }
 
+    /**
+     * Get document download by ID
+     *
+     * @param avalaraVersion the Avalara version
+     * @param avalaraClient  the Avalara client
+     * @param id             the document ID
+     * @return the invoice
+     */
     @GetMapping("/{id}/download")
     public ResponseEntity<Invoice> getDocumentDownload(@RequestHeader("avalara-version") String avalaraVersion,
                                                        @RequestHeader("X-Avalara-Client") String avalaraClient,

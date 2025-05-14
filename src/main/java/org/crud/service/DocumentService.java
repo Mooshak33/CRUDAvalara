@@ -30,6 +30,12 @@ public class DocumentService {
         this.tokenService = tokenService;
         this.oAuth2ClientProperties = oAuth2ClientProperties;
     }
+    /**
+     * Get all documents
+     *
+     * @param headers the HTTP headers
+     * @return the document response
+     */
     public DocumentResponse getDocument(HttpHeaders headers) {
         try {
             // Get the access token
@@ -55,6 +61,13 @@ public class DocumentService {
         return null;
     }
 
+    /**
+     * Get document status by ID
+     *
+     * @param headers the HTTP headers
+     * @param id      the document ID
+     * @return the document status response
+     */
     public DocumentStatusResponse getDocumentStatus(HttpHeaders headers, String id) {
         try {
             // Get the access token
@@ -80,32 +93,51 @@ public class DocumentService {
         return null;
     }
 
-    public DataInputFieldResponse getDataInputFields(HttpHeaders headers) {
+    /**
+     * Get data input fields
+     *
+     * @param headers the HTTP headers
+     * @return the data input field response
+     */
+    public DataInputFieldResponse getDataInputFields(HttpHeaders headers,String filter) {
         try {
-            headers.setAccept(Collections.singletonList(MediaType.valueOf("application/json")));
+            headers.setAccept(Collections.singletonList(MediaType.valueOf(APPLICATION_JSON_VALUE)));
             // Get the access token
             String accessToken = tokenService.getAccessToken(oAuth2ClientProperties.getTokenUrl(), oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret(),oAuth2ClientProperties.getGrantType());
             // Set the Authorization header
             headers.setBearerAuth(accessToken);
-            ResponseEntity<String> response = restTemplate.exchange(
-                    "https://api.sbx.avalara.com/einvoicing/data-input-fields",
+            ResponseEntity<DataInputFieldResponse> dataInputFieldResponse = restTemplate.exchange(
+                    "https://api.sbx.avalara.com/einvoicing/data-input-fields?$filter=" + filter,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
-                    String.class
+                    DataInputFieldResponse.class
             );
-            String dataInputFieldResponse = response.getBody();
-            if (dataInputFieldResponse != null) {
-                 log.info("Successfully fetched mandates: {}", dataInputFieldResponse);
-                return null;
+            if (dataInputFieldResponse.getStatusCode() == HttpStatus.OK) {
+                DataInputFieldResponse responseBody = dataInputFieldResponse.getBody();
+                log.info("Raw response body: {}", responseBody);
+
+                if (responseBody != null) {
+                    log.info("Successfully fetched Invoice: {}", responseBody);
+                    return responseBody;
+                } else {
+                    log.error("Failed to deserialize Invoice, response body is null");
+                }
             } else {
-                  log.error("Failed to fetch mandates, response body is null");
+                log.error("Failed to fetch Invoice, HTTP status: {}", dataInputFieldResponse.getStatusCode());
             }
         } catch (Exception e) {
-              log.error("Error fetching mandates from Avalara API: {}", e.getMessage());
+              log.error("Error fetching document Input Fields from Avalara API: {}", e.getMessage());
         }
         return null;
     }
 
+    /**
+     * Get data document download
+     *
+     * @param headers the HTTP headers
+     * @param id      the document ID
+     * @return the invoice object
+     */
     public Invoice getDataDocumentDownload(HttpHeaders headers,String id) {
         try {
             // Set the Accept header to a supported value

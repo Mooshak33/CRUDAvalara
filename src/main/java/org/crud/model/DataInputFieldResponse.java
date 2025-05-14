@@ -7,8 +7,10 @@ import java.util.List;
 
 @Data
 public class DataInputFieldResponse {
+
     @JsonProperty("@nextLink")
     private String nextLink;
+
     @JsonProperty("value")
-    private List<DataInputField> value;
+    private List<Value> value;
 }

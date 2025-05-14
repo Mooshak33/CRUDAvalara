@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /avalara
-  port: 8089
+  port: 8090
 # application.properties
 security:
   oauth2:
@@ -10,3 +10,7 @@ security:
       client-id: b401f37e6c7e4f0faf90e2efd3015d24
       client-secret: K+HVIwwGfK2EmzlVTdfLtNGmjQ
       grant-type: client_credentials
+spring:
+  jackson:
+    deserialization:
+      accept-empty-string-as-null-object: true
