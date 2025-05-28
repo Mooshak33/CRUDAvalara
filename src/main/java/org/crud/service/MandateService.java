@@ -35,23 +35,8 @@ public class MandateService {
             String accessToken = tokenService.getAccessToken(oAuth2ClientProperties.getTokenUrl(), oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret(),oAuth2ClientProperties.getGrantType());
             // Set the Authorization header
             headers.setBearerAuth(accessToken);
-            String[] parts = filter.split("\\s+(eq|contains)\\s+");
-            String fieldName="";
-            String operatorWithValue="";
-            String operator="";
-            String value="";
-            if (parts.length == 2) {
-                fieldName = parts[0].trim();
-                operatorWithValue = filter.substring(fieldName.length()).trim();
-                operator = operatorWithValue.split("\\s+")[0];
-                value = operatorWithValue.substring(operator.length()).trim();
-                // Remove surrounding single quotes if present
-                if (value.startsWith("'") && value.endsWith("'") && value.length() > 1) {
-                    value = value.substring(1, value.length() - 1);
-                }
-            }
             URI uri = UriComponentsBuilder.fromHttpUrl("https://api.sbx.avalara.com/einvoicing/mandates")
-                    .queryParam(fieldName, value)
+                    .queryParam("$filter", filter)
                     .queryParam("$top", top)
                     .queryParam("$skip", skip)
                     .build()

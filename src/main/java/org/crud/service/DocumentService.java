@@ -3,10 +3,7 @@ package org.crud.service;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Unmarshaller;
 import org.crud.config.OAuth2ClientProperties;
-import org.crud.model.DataInputFieldResponse;
-import org.crud.model.DocumentResponse;
-import org.crud.model.DocumentStatusResponse;
-import org.crud.model.Invoice;
+import org.crud.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -15,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.StringReader;
 import java.util.Collections;
+import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -89,6 +87,32 @@ public class DocumentService {
             }
         } catch (Exception e) {
               log.error("Error fetching mandates from Avalara API: {}", e.getMessage());
+        }
+        return null;
+    }
+
+    public DocumentSubmitResponse submitDocument(HttpHeaders headers, Map<String, Object> submitDocument) {
+        try {
+            // Get the access token
+            String accessToken = tokenService.getAccessToken(oAuth2ClientProperties.getTokenUrl(), oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret(),oAuth2ClientProperties.getGrantType());
+            // Set the Authorization header
+            headers.setBearerAuth(accessToken);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            ResponseEntity<DocumentSubmitResponse> response = restTemplate.exchange(
+                    "https://api.sbx.avalara.com/einvoicing/documents",
+                    HttpMethod.POST,
+                    new HttpEntity<>(submitDocument, headers),
+                    DocumentSubmitResponse.class
+            );
+            DocumentSubmitResponse documentResponse = response.getBody();
+            if (documentResponse != null) {
+                 log.info("Successfully submitted document: {}", documentResponse);
+                return documentResponse;
+            } else {
+                  log.error("Failed to submit document, response body is null");
+            }
+        } catch (Exception e) {
+              log.error("Error submitting document to Avalara API: {}", e.getMessage());
         }
         return null;
     }
