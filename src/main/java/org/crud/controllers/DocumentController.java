@@ -1,13 +1,12 @@
 package org.crud.controllers;
 
-import org.crud.model.DataInputFieldResponse;
-import org.crud.model.DocumentResponse;
-import org.crud.model.DocumentStatusResponse;
-import org.crud.model.Invoice;
+import org.crud.model.*;
 import org.crud.service.DocumentService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/einvoicing/documents")
@@ -87,6 +86,16 @@ public class DocumentController {
         headers.add("avalara-version", avalaraVersion);
         headers.add("X-Avalara-Client", avalaraClient);
         return ResponseEntity.ok(documentService.getDataDocumentDownload(headers, id));
+    }
+
+    @PostMapping
+    public ResponseEntity<DocumentSubmitResponse> submitDocuments(@RequestHeader("avalara-version") String avalaraVersion,
+                                                                  @RequestHeader("X-Avalara-Client") String avalaraClient,
+                                                                  @RequestBody Map<String, Object> submitDocument) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("avalara-version", avalaraVersion);
+        headers.add("X-Avalara-Client", avalaraClient);
+        return ResponseEntity.ok(documentService.submitDocument(headers,submitDocument));
     }
 
 }
