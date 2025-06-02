@@ -6,9 +6,13 @@ import org.crud.config.OAuth2ClientProperties;
 import org.crud.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.StringReader;
 import java.util.Collections;
@@ -91,17 +95,21 @@ public class DocumentService {
         return null;
     }
 
-    public DocumentSubmitResponse submitDocument(HttpHeaders headers, Map<String, Object> submitDocument) {
+    public DocumentSubmitResponse submitDocument(HttpHeaders headers, String data, Map<String, Object> metadata) {
         try {
             // Get the access token
             String accessToken = tokenService.getAccessToken(oAuth2ClientProperties.getTokenUrl(), oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret(),oAuth2ClientProperties.getGrantType());
             // Set the Authorization header
             headers.setBearerAuth(accessToken);
-            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            // Create a MultiValueMap for the form data
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("data", data);
+            body.add("metadata", metadata);
             ResponseEntity<DocumentSubmitResponse> response = restTemplate.exchange(
                     "https://api.sbx.avalara.com/einvoicing/documents",
                     HttpMethod.POST,
-                    new HttpEntity<>(submitDocument, headers),
+                    new HttpEntity<>(body, headers),
                     DocumentSubmitResponse.class
             );
             DocumentSubmitResponse documentResponse = response.getBody();

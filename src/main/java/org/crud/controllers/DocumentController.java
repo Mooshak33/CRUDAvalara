@@ -1,10 +1,13 @@
 package org.crud.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.crud.model.*;
 import org.crud.service.DocumentService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -88,14 +91,17 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.getDataDocumentDownload(headers, id));
     }
 
-    @PostMapping
+    @PostMapping("/submit")
     public ResponseEntity<DocumentSubmitResponse> submitDocuments(@RequestHeader("avalara-version") String avalaraVersion,
                                                                   @RequestHeader("X-Avalara-Client") String avalaraClient,
-                                                                  @RequestBody(required = true) Map<String, Object> submitDocument) {
+                                                                  @RequestPart(value = "data", required = true) String data,
+                                                                  @RequestPart(value = "metadata", required = true) String metadata) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("avalara-version", avalaraVersion);
         headers.add("X-Avalara-Client", avalaraClient);
-        return ResponseEntity.ok(documentService.submitDocument(headers,submitDocument));
+        Map<String, Object> metadataMap = new ObjectMapper().readValue(metadata, Map.class);
+
+        return ResponseEntity.ok(documentService.submitDocument(headers, data, metadataMap));
     }
 
 }

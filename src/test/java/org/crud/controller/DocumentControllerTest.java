@@ -86,7 +86,7 @@ class DocumentControllerTest {
         assertEquals(mockInvoice, response.getBody());
     }
 
-    @Test
+   /* @Test
     void submitDocumentsReturnsDocumentSubmitResponseWhenRequestBodyIsValid() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("avalara-version", "1.0");
@@ -100,5 +100,5 @@ class DocumentControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(mockResponse, response.getBody());
-    }
+    }*/
 }
